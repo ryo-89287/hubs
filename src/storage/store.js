@@ -44,7 +44,10 @@ export const SCHEMA = {
       type: "object",
       additionalProperties: false,
       properties: {
-        displayName: { type: "string", pattern: "^[A-Za-z0-9_~ -]{3,32}$" },
+        // 情報表示用
+        infoUser: { type: "string" },
+        //displayName: { type: "string", pattern: "^[A-Za-z0-9_~ -]{3,32}$" },
+        displayName: { type: "string", pattern: "^.{3,32}$" },
         avatarId: { type: "string" },
         // personalAvatarId is obsolete, but we need it here for backwards compatibility.
         personalAvatarId: { type: "string" }
@@ -277,8 +280,23 @@ export default class Store extends EventTarget {
     if (!this.state.activity.hasChangedName) {
       this.update({ profile: { displayName: generateRandomName() } });
     }
-  };
 
+    // 情報を取得し格納
+    if(localStorage.getItem("email") === null)
+    {
+      this.update({ profile: { infoUser: "情報なし" } });
+    }
+    else
+    {
+      const url = ["https://aframe-font.s3.ap-northeast-1.amazonaws.com",localStorage.getItem("email"),"json.json"];
+      fetch(url.join("/"))
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            this.update({ profile: { infoUser: data.foundation } });
+        });
+    }
+  };
   resetToRandomDefaultAvatar = async () => {
     this.update({
       profile: { ...(this.state.profile || {}), avatarId: await fetchRandomDefaultAvatarId() }

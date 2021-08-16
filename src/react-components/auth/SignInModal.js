@@ -137,6 +137,8 @@ SubmitEmail.propTypes = {
 };
 
 export function WaitForVerification({ email, onCancel, showNewsletterSignup }) {
+  // WebStorageに入力値を保存
+  localStorage.setItem("email", email.replace("@", "_"));
   return (
     <Column center padding>
       <FormattedMessage

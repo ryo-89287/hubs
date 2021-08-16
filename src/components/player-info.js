@@ -43,6 +43,7 @@ AFRAME.registerComponent("player-info", {
   init() {
     this.displayName = null;
     this.identityName = null;
+    this.infoUser = null;
     this.isOwner = false;
     this.isRecording = false;
     this.applyProperties = this.applyProperties.bind(this);
@@ -119,6 +120,7 @@ AFRAME.registerComponent("player-info", {
   updateFromPresenceMeta(presenceMeta) {
     this.permissions = presenceMeta.permissions;
     this.displayName = presenceMeta.profile.displayName;
+    this.infoUser = presenceMeta.profile.infoUser;
     this.identityName = presenceMeta.profile.identityName;
     this.isRecording = !!(presenceMeta.streaming || presenceMeta.recording);
     this.isOwner = !!(presenceMeta.roles && presenceMeta.roles.owner);
@@ -133,6 +135,13 @@ AFRAME.registerComponent("player-info", {
     const infoShouldBeHidden =
       this.isLocalPlayerInfo || (store.state.preferences.onlyShowNametagsInFreeze && !this.el.sceneEl.is("frozen"));
 
+    // 相手の情報を更新
+    const infotagEl = this.el.querySelector(".infotag");
+      if (this.displayName && infotagEl) {
+        console.log(this.infoUser);
+        infotagEl.setAttribute("text", { value: this.infoUser });
+        infotagEl.object3D.visible = !infoShouldBeHidden;
+    }
     const nametagEl = this.el.querySelector(".nametag");
     if (this.displayName && nametagEl) {
       nametagEl.setAttribute("text", { value: this.displayName });

@@ -1081,7 +1081,7 @@ class UIRoot extends Component {
     const showObjectList = enteredOrWatching;
 
     const streamer = getCurrentStreamer();
-    const streamerName = streamer && streamer.displayName;
+    const streamerName = streamer && streamer.displayName;    
 
     const renderEntryFlow = (!enteredOrWatching && this.props.hub) || this.isWaitingForAutoExit();
 

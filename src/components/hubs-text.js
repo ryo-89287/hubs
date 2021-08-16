@@ -86,8 +86,12 @@ function loadTexture(src) {
 
 const FONTS = {
   roboto: {
-    json: loadFont("https://cdn.aframe.io/fonts/Roboto-msdf.json"),
-    texture: loadTexture("https://cdn.aframe.io/fonts/Roboto-msdf.png")
+    json: loadFont("https://aframe-font.s3.ap-northeast-1.amazonaws.com/mplus-msdf.json"),
+    texture: loadTexture("https://aframe-font.s3.ap-northeast-1.amazonaws.com/mplus-msdf.png")
+    //json: loadFont("https://cdn.aframe.io/fonts/Roboto-msdf.json"),
+    //texture: loadTexture("https://cdn.aframe.io/fonts/Roboto-msdf.png")
+    //json: loadFont("../assets/font/mplus-msdf.json"),
+    //texture: loadTexture("../assets/font/mplus-msdf.png")
   }
 };
 
