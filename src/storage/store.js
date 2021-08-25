@@ -288,6 +288,8 @@ export default class Store extends EventTarget {
     }
     else
     {
+      // S3上のJsonファイルを取得する場合
+      /*
       const url = ["https://aframe-font.s3.ap-northeast-1.amazonaws.com",localStorage.getItem("email"),"json.json"];
       fetch(url.join("/"))
         .then(response => response.json())
@@ -295,6 +297,32 @@ export default class Store extends EventTarget {
             console.log(data);
             this.update({ profile: { infoUser: data.foundation } });
         });
+        */
+
+        // DB上のデータを取得する場合
+        // URLを定義
+        const url = "http://localhost:8000/api/GetUserInfo";
+
+        // 送信パラメータを定義
+        const sendJson = {
+          mail: localStorage.getItem("email"),
+          app_version: "0.0.1",
+        };
+
+        // jsonにて通信する場合のお作法並びにjson文字列に変換
+        const method = "POST";
+        const body = JSON.stringify(sendJson);
+        const headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        };
+
+        fetch(url, {method, headers, body})
+          .then(response => response.json())
+          .then(data => {
+              console.log(data);
+              this.update({ profile: { infoUser: data.user_info } });
+          });
     }
   };
   resetToRandomDefaultAvatar = async () => {
