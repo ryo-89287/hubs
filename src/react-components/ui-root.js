@@ -624,7 +624,36 @@ class UIRoot extends Component {
     if (this.mediaDevicesManager.isVideoShared) {
       console.log("Screen sharing enabled.");
     }
-  };
+
+    // URLからルームのIDを取得
+    var pathNames = location.pathname.split("/");
+    console.log(pathNames[1]);
+
+    // URLを定義
+    const url = "http://localhost:8000/api/SetUserEnterRoomId";
+
+    // 送信パラメータを定義
+    const sendJson = {
+      room_id: pathNames[1],
+      mail: localStorage.getItem("email"),
+    };
+
+    console.log(JSON.stringify(sendJson));
+
+    // jsonにて通信する場合のお作法並びにjson文字列に変換
+    const method = "POST";
+    const body = JSON.stringify(sendJson);
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+
+    fetch(url, {method, headers, body})
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      });
+    };
 
   attemptLink = async () => {
     this.pushHistoryState("entry_step", "device");
@@ -1081,7 +1110,7 @@ class UIRoot extends Component {
     const showObjectList = enteredOrWatching;
 
     const streamer = getCurrentStreamer();
-    const streamerName = streamer && streamer.displayName;    
+    const streamerName = streamer && streamer.displayName;
 
     const renderEntryFlow = (!enteredOrWatching && this.props.hub) || this.isWaitingForAutoExit();
 

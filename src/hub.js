@@ -771,6 +771,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   };
 
+  window.addEventListener('beforeunload', event => {
+    // URLを定義
+    const url = "http://localhost:8000/api/SetUserEnterRoomId";
+
+    // 送信パラメータを定義
+    const sendJson = {
+      room_id: null,
+      mail: localStorage.getItem("email"),
+    };
+
+    console.log(JSON.stringify(sendJson));
+
+    // jsonにて通信する場合のお作法並びにjson文字列に変換
+    const method = "POST";
+    const body = JSON.stringify(sendJson);
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+
+    // 部屋から退室したと通知
+    fetch(url, {method, headers, body, keepalive: true})
+  })
+
   window.addEventListener("action_create_avatar", () => {
     performConditionalSignIn(
       () => hubChannel.signedIn,
